@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models.query import QuerySet
+from django.conf import settings
 
 import mptt
 from mptt.utils import previous_current_next
@@ -111,7 +112,7 @@ class MenuItem(models.Model):
     )
     order = models.IntegerField(
         _('order'),
-        choices=[(x, x) for x in xrange(0, 51)],
+        choices=[(x, x) for x in xrange(0, getattr(settings, 'TREENAV_MAX_ORDER', 50) + 1)],
     )
     is_enabled = models.BooleanField(default=True)
     link = models.CharField(
